@@ -1,0 +1,3 @@
+$ stty raw                             # sets terminal to raw mode
+$ stty cooked                          # drops terminal out of raw mode
+

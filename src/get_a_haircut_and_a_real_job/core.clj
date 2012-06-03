@@ -1,5 +1,7 @@
 (ns get-a-haircut-and-a-real-job.core
-  (:use [clojure.contrib.shell]))
+  (:use [clojure.contrib.shell]
+        [clojure.pprint :only pprint]
+        [clojure.java.io :only reader]))
 
 (defn home []
   (print "[H"))
@@ -20,12 +22,14 @@
   (printf "[0m"))
 
 (defn really-get-char [input-char]
+  (pprint input-char)
   (if (= input-char -1)
     (recur (.read *in*))
     (char input-char)))
 
 (defn get-char []
-  (sh "sh" "-c" "stty raw </dev/tty")
-  (really-get-char (.read *in*))
-  (sh "sh" "-c" "stty cooked </dev/tty"))
+  (sh "stty" "-f /dev/tty" "raw")
+  ;(really-get-char (.read *in*))
+  (pprint (.read (reader "/dev/tty")))
+  (sh "stty" "-f /dev/tty" "cooked"))
 
